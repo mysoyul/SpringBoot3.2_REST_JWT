@@ -20,6 +20,7 @@ public class LectureValidator {
 
 		//강의종료날짜
 		LocalDateTime endLectureDateTime = lectureReqDto.getEndLectureDateTime();
+
 		if(endLectureDateTime.isBefore(lectureReqDto.getBeginLectureDateTime()) ||
 		   endLectureDateTime.isBefore(lectureReqDto.getCloseEnrollmentDateTime()) ||
 		   endLectureDateTime.isBefore(lectureReqDto.getBeginEnrollmentDateTime()) ) {
@@ -29,6 +30,7 @@ public class LectureValidator {
 		
 		//강의시작날짜
 		LocalDateTime beginLectureDateTime = lectureReqDto.getBeginLectureDateTime();
+
 		if(beginLectureDateTime.isBefore(lectureReqDto.getCloseEnrollmentDateTime()) ||
 		   beginLectureDateTime.isBefore(lectureReqDto.getBeginEnrollmentDateTime()) ||
 		   beginLectureDateTime.isAfter(lectureReqDto.getEndLectureDateTime())) {
