@@ -31,13 +31,13 @@ public class LectureController {
     public ResponseEntity<?> createLecture(@RequestBody @Valid LectureReqDto lectureReqDto, Errors errors) {
         //입력항목 검증오류 발생했는지 체크
         if(errors.hasErrors()) {
-            return ResponseEntity.badRequest().body(errors);
+            return badRequest(errors);
         }
 
         //Biz로직의 입력항목 체크
         lectureValidator.validate(lectureReqDto, errors);
         if(errors.hasErrors()) {
-            return ResponseEntity.badRequest().body(errors);
+            return badRequest(errors);
         }
         
         //ReqDto => Entity 매핑
@@ -48,5 +48,9 @@ public class LectureController {
         WebMvcLinkBuilder selfLinkBuilder = WebMvcLinkBuilder.linkTo(LectureController.class).slash(addLecture.getId());
         URI createUri = selfLinkBuilder.toUri();
         return ResponseEntity.created(createUri).body(addLecture);
+    }
+
+    private static ResponseEntity<Errors> badRequest(Errors errors) {
+        return ResponseEntity.badRequest().body(errors);
     }
 }
