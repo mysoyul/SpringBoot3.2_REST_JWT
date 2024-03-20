@@ -29,7 +29,7 @@ public class LectureController {
     public ResponseEntity<?> createLecture(@RequestBody @Valid LectureReqDto lectureReqDto, Errors errors) {
         //입력항목 검증오류 발생했는지 체크
         if(errors.hasErrors()) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(errors);
         }
         
         //ReqDto => Entity 매핑
