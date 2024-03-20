@@ -1,11 +1,13 @@
 package com.boot3.myrestapi.lectures;
 
 import com.boot3.myrestapi.lectures.dto.LectureReqDto;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +26,12 @@ public class LectureController {
 //        this.lectureRepository = lectureRepository;
 //    }
     @PostMapping
-    public ResponseEntity<?> createLecture(@RequestBody LectureReqDto lectureReqDto) {
+    public ResponseEntity<?> createLecture(@RequestBody @Valid LectureReqDto lectureReqDto, Errors errors) {
+        //입력항목 검증오류 발생했는지 체크
+        if(errors.hasErrors()) {
+            return ResponseEntity.badRequest().build();
+        }
+        
         //ReqDto => Entity 매핑
         Lecture lecture = modelMapper.map(lectureReqDto, Lecture.class);
         
