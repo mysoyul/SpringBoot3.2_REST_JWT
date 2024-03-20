@@ -64,7 +64,7 @@ public class LectureController {
         //relation 이름이 update-lecture 인 link
         lectureResource.add(selfLinkBuilder.withRel("update-lecture"));
 
-        return ResponseEntity.created(createUri).body(addLecture);
+        return ResponseEntity.created(createUri).body(lectureResource);
     }
 
     private static ResponseEntity<Errors> badRequest(Errors errors) {
