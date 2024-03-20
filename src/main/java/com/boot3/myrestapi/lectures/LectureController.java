@@ -42,7 +42,10 @@ public class LectureController {
         
         //ReqDto => Entity 매핑
         Lecture lecture = modelMapper.map(lectureReqDto, Lecture.class);
-        
+
+        //free, offline 정보 업데이트
+        lecture.update();
+
         Lecture addLecture = this.lectureRepository.save(lecture);
 
         WebMvcLinkBuilder selfLinkBuilder = WebMvcLinkBuilder.linkTo(LectureController.class).slash(addLecture.getId());
