@@ -47,11 +47,13 @@ public class DefaultExceptionAdvice {
         return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
     }
 
+    //403
     @ExceptionHandler(value = AccessDeniedException.class)
     public void accessDeniedExceptionHandler(Exception e) {
         throw new AccessDeniedException(e.getMessage());
     }
 
+    //401
     @ExceptionHandler(value = BadCredentialsException.class)
     public void badCredentialExceptionHandler(BadCredentialsException e){
         throw new BadCredentialsException(e.getMessage());
