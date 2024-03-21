@@ -69,7 +69,7 @@ public class JwtService {
         // ACCESS_EXPIRE 3600초 => 60분
         Date exprireDate = Date.from(Instant.now().plusSeconds(ACCESS_EXPIRE));
 
-        return Jwts.builder()
+        return Jwts.builder() //JwtBuilder
                 .signWith(KEY, ALGORITHM)
                 .subject(userName)
                 .issuedAt(new Date())
