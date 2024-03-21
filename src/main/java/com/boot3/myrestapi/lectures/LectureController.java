@@ -6,6 +6,8 @@ import com.boot3.myrestapi.lectures.dto.LectureReqDto;
 import com.boot3.myrestapi.lectures.dto.LectureResDto;
 import com.boot3.myrestapi.lectures.dto.LectureResource;
 import com.boot3.myrestapi.lectures.validator.LectureValidator;
+import com.boot3.myrestapi.security.userinfo.CurrentUser;
+import com.boot3.myrestapi.security.userinfo.UserInfo;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -100,7 +102,9 @@ public class LectureController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createLecture(@RequestBody @Valid LectureReqDto lectureReqDto, Errors errors) {
+    public ResponseEntity<?> createLecture(@RequestBody @Valid LectureReqDto lectureReqDto,
+                                           Errors errors,
+                                           @CurrentUser UserInfo currentUser) {
         //입력항목 검증오류 발생했는지 체크
         if (errors.hasErrors()) {
             return badRequest(errors);
@@ -117,6 +121,8 @@ public class LectureController {
 
         //free, offline 정보 업데이트
         lecture.update();
+        //Lecture와  UserInfo 연관관계 설정
+        lecture.setUserInfo(currentUser);
 
         Lecture addLecture = this.lectureRepository.save(lecture);
         //Entity => ResDto 매핑
