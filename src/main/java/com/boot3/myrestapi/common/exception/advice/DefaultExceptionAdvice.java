@@ -17,7 +17,6 @@ import java.util.Map;
 public class DefaultExceptionAdvice {
 	private final Logger LOGGER = LoggerFactory.getLogger(DefaultExceptionAdvice.class);
 
-
     @ExceptionHandler(BusinessException.class)
     protected ResponseEntity<Object> handleException(BusinessException e) {
         Map<String, Object> result = new HashMap<String, Object>();
