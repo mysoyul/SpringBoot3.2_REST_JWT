@@ -42,21 +42,20 @@ public class LectureController {
     public ResponseEntity<?> updateLecture(@PathVariable Integer id,
                                         @RequestBody @Valid LectureReqDto lectureReqDto,
                                         Errors errors) {
-        Optional<Lecture> optionalLecture = this.lectureRepository.findById(id);
-
-        String errMsg = String.format("Id = %d Lecture Not Found", id);
-        Lecture existingLecture = optionalLecture
-                .orElseThrow(() -> new BusinessException(errMsg, HttpStatus.NOT_FOUND));
+        Lecture existingLecture = getExistOrNotLecture(id);
 
         if (errors.hasErrors()) {
             return badRequest(errors);
         }
+
         lectureValidator.validate(lectureReqDto, errors);
         if (errors.hasErrors()) {
             return badRequest(errors);
         }
 
         this.modelMapper.map(lectureReqDto, existingLecture);
+        existingLecture.update();
+
         Lecture savedLecture = this.lectureRepository.save(existingLecture);
         LectureResDto lectureResDto = modelMapper.map(savedLecture, LectureResDto.class);
 
@@ -66,15 +65,19 @@ public class LectureController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getLecture(@PathVariable Integer id) {
-        Optional<Lecture> optionalLecture = this.lectureRepository.findById(id);
-
-        String errMsg = String.format("Id = %d Lecture Not Found", id);
-        Lecture lecture = optionalLecture
-                .orElseThrow(() -> new BusinessException(errMsg, HttpStatus.NOT_FOUND));
+        Lecture lecture = getExistOrNotLecture(id);
 
         LectureResDto lectureResDto = modelMapper.map(lecture, LectureResDto.class);
         LectureResource lectureResource = new LectureResource(lectureResDto);
         return ResponseEntity.ok(lectureResource);
+    }
+
+    private Lecture getExistOrNotLecture(Integer id) {
+        Optional<Lecture> optionalLecture = this.lectureRepository.findById(id);
+
+        String errMsg = String.format("Id = %d Lecture Not Found", id);
+        return optionalLecture
+                .orElseThrow(() -> new BusinessException(errMsg, HttpStatus.NOT_FOUND));
     }
 
     @GetMapping
