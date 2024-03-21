@@ -42,7 +42,7 @@ public class LambdaTest {
 
         //2.Lambda Expression
         //Consumer의 추상 메서드 void accept(T t)
-        list.forEach(val -> System.out.println("값 =" + val));
+        list.forEach(val -> System.out.println(val));
 
         //3.Method Reference
         list.forEach(System.out::println);

@@ -41,7 +41,12 @@ public class LectureController {
         Page<LectureResDto> lectureResDtoPage = lecturePage
                 .map(lecture -> modelMapper.map(lecture, LectureResDto.class));
         // Page<LectureResDto> => PagedModel<EntityModel<LectureResDto>>
-        PagedModel<EntityModel<LectureResDto>> pagedModel = assembler.toModel(lectureResDtoPage);
+        //PagedModel<EntityModel<LectureResDto>> pagedModel = assembler.toModel(lectureResDtoPage);
+
+//        PagedModel<LectureResource> pagedModel = assembler
+//                .toModel(lectureResDtoPage, lectureResDto -> new LectureResource(lectureResDto));
+        PagedModel<LectureResource> pagedModel = assembler.toModel(lectureResDtoPage, LectureResource::new);
+
         return ResponseEntity.ok(pagedModel);
     }
 
