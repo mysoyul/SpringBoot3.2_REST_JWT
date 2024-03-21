@@ -57,9 +57,9 @@ public class LectureController {
         URI createUri = selfLinkBuilder.toUri();
 
         LectureResource lectureResource = new LectureResource(lectureResDto);
-        //relation 이름이 query-lectures 인 link
+        //relation 이름이 query-lectures  link 생성
         lectureResource.add(linkTo(LectureController.class).withRel("query-lectures"));
-        //relation 이름이 update-lecture 인 link
+        //relation 이름이 update-lecture  link 생성
         lectureResource.add(selfLinkBuilder.withRel("update-lecture"));
 
         return ResponseEntity.created(createUri).body(lectureResource);
